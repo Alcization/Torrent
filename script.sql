@@ -1,30 +1,10 @@
-                    re_query = """
-                        SELECT MAX(num_order_in_file)
-                        FROM peers 
-                        WHERE file_name = '%s
-                    """
-                    param = (file_name,)
-
-                    mycursor.execute(re_query, param)
-                    number = mycursor.fetchone()
-                    
-
-                    query = f"""
-                        SELECT peers_ip, peers_port, peers_hostname, file_name, file_size, piece_hash, piece_size, num_order_in_file
-                        FROM (WITH NumberedRows AS (
-                                SELECT *,
-                                    ROW_NUMBER() OVER (PARTITION BY num_order_in_file ORDER BY RAND()) AS rn
-                                FROM (
-                                    SELECT * FROM peers
-                                    WHERE file_name = %s
-                                ) AS table1
-                                WHERE num_order_in_file BETWEEN 1 AND ({number})
-                            )
-                            SELECT *
-                            FROM NumberedRows
-                            WHERE rn = 1) AS table2
-                    """
-                    params = (file_name, *number)
-
-                mycursor.execute(query, params)
-                results = mycursor.fetchall()
+CREATE TABLE `peers` (
+  `peers_ip` varchar(20) NOT NULL,
+  `peers_port` varchar(10) NOT NULL,
+  `peers_hostname` varchar(255) NOT NULL,
+  `file_name` varchar(255) NOT NULL,
+  `file_size` varchar(255) NOT NULL,
+  `piece_hash` varchar(255) NOT NULL,
+  `piece_size` varchar(10) NOT NULL,
+  `num_order_in_file` varchar(10) NOT NULL
+);
