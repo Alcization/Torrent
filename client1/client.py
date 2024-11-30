@@ -246,7 +246,7 @@ def main(server_host, server_port, peers_port):
             if len(command_parts) == 2 and command_parts[0].lower() == 'publish':
                 _,file_name = command_parts
                 if check_local_files(file_name):
-                    piece_size = 16777216  # 512KB
+                    piece_size = 524288  # 512KB
                     file_size = os.path.getsize(file_name)
                     pieces = split_file_into_pieces(file_name,piece_size)
                     handle_publish_piece(sock, peers_port, pieces, file_name,file_size,piece_size)

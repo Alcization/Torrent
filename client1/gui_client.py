@@ -99,7 +99,7 @@ class P2PClientGUI:
         filename = filedialog.askopenfilename()
         if filename:
             self.file_path.set(filename)
-            piece_size = 16777216  # 512KB
+            piece_size = 524288  # 512KB
             self.current_file_size = os.path.getsize(filename)
             self.pieces = split_file_into_pieces(filename, piece_size)
             self.piece_hashes = create_pieces_string(self.pieces)
